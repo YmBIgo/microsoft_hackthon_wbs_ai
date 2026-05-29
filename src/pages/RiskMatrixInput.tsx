@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { Link } from "react-router";
 
+import ec_ux_risk_matrix from "../const/ec_ux_risk_matrix.json";
+import postgres_update_risk_matrix from "../const/postgres_update_risk_matrix.json";
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TimelineIcon from '@mui/icons-material/Timeline';
@@ -11,7 +14,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 
 function RiskMatrix() {
-  const [risks, setRisks] = useState([]);
+  const [risks, setRisks] = useState<any[]>([]);
   const stakeholderRiskMatrix = Object.entries(risks.reduce((matrix: any, risk: any) => {
     function addToMatrix(stakeholderName: string, risk: any, matrix2: any, otherStakholder: string) {
       const newMatrix = { ...matrix2 };
@@ -93,6 +96,28 @@ function RiskMatrix() {
           };
           reader.readAsText(file);
         }} />
+        <br/>
+        <Button variant="contained" color="primary" onClick={() => {
+          setRisks(ec_ux_risk_matrix as any[]);
+          setCurrentRisks(null);
+          setCurrentStakeholder("");
+          setDisplayRisksCount(5);
+        }} sx={{
+          marginTop: "16px",
+        }}>
+          ECのデータで試す
+        </Button>
+        <Button variant="contained" color="secondary" onClick={() => {
+          setRisks(postgres_update_risk_matrix as any[]);
+          setCurrentRisks(null);
+          setCurrentStakeholder("");
+          setDisplayRisksCount(5);
+        }} sx={{
+          marginTop: "16px",
+          marginLeft: "16px",
+        }}>
+          Postgresバージョンアッププロジェクトのデータで試す
+        </Button>
         <br />
        </Box>
     )
